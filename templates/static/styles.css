@@ -1,0 +1,248 @@
+body {
+  display: flex;
+  background-color: #eceff4;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  outline: none;
+  box-shadow: none;
+  cursor: inherit;
+}
+
+/* for main */
+.header {
+  background-color: #043b72;
+  color: #ffffff;
+  padding: 20px;
+  text-align: center;
+}
+.container {
+  text-align: center;
+  padding: 20px;
+}
+.main-title {
+  font-size: 2.5em;
+  color: #f58220;
+}
+.subtitle {
+  font-size: 1.2em;
+  color: #48535b;
+}
+.button {
+  background-color: #f58220;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1em;
+  margin: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.info-box {
+  background-color: #ffffff;
+  border: 1px solid #cdcecb;
+  border-radius: 5px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  max-height: 35vh; /* Limit the height of the content */
+  overflow-y: auto; /* Enable vertical scrolling for content */
+}
+.info-box h3 {
+  color: #043b72;
+}
+.info-box p {
+  color: #48535b;
+  line-height: 1.6;
+}
+
+.instruction {
+  background-color: #e5e4e1;
+  padding: 10px;
+  margin-top: 20px;
+}
+
+.instruction p {
+  margin: 0;
+  font-size: 18px;
+  color: #043b72; /* Text color */
+}
+/* end for main */
+.logo {
+  cursor: pointer;
+  text-align: center;
+  color: white;
+}
+
+.main {
+  display: flex;
+  width: 90%;
+  height: 80%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.divcontainer {
+  display: flex;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.chartdivcontainer {
+  overflow-y: auto;
+}
+
+.navbar {
+  width: 230px;
+  border-right: 1px solid #ccc;
+  background-color: #f58220;
+  overflow-y: auto;
+}
+
+.navbar h2 {
+  color: #fff;
+}
+
+.navbar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.navbar li {
+  margin: 10px 0;
+}
+
+.bnt {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #f58220;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.onclick {
+  border: 3px solid #ad624e;
+}
+
+.navbar button:hover {
+  background-color: #cb6015;
+}
+
+.content {
+  padding: 20px;
+  flex-grow: 1;
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  background-color: #ffffff;
+}
+
+/* for graph */
+.mainbutton {
+  font-size: 16px;
+  background-color: #f58220;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.mainbutton:hover {
+  background-color: #e6731c;
+  transform: scale(1.05);
+}
+
+.mainbutton:active {
+  background-color: #cc621a;
+  transform: scale(1);
+}
+.chartcontainer {
+  display: block; /* Ensures each element starts on a new line */
+  margin: 0 auto; /* Centers elements horizontally */
+  padding: 0;
+  text-align: right; /* Aligns text to the left */
+}
+
+/* loding */
+#loading-indicator {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 24px;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 20px;
+  border-radius: 5px;
+  z-index: 9999;
+}
+#content {
+  display: flex;
+}
+
+.exec-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.exec-item {
+  flex: 1 1 30%; /* Adjust the width of the items to 30% for three columns */
+  margin: 10px;
+  background-color: #ffffff;
+  border: 1px solid #cdcecb;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.with-naver-bnt {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Optional: ensures vertical alignment */
+}
+.naver-button {
+  background-color: #3db400;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1em;
+  margin: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}

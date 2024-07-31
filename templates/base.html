@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>LikeBUFFETT</title>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.0.0/dist/chartjs-plugin-zoom.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.0.0"></script>
+</head>
+
+<body>
+    <div class="main">
+
+        <div class="navbar">
+            <a href="/">
+                <h3 class="logo">LikeBUFFETT</h3>
+            </a>
+            <ul id="nav-list">
+                {% if item_id %}
+                <li><a href="/{{ item_id }}"><button class="bnt onclick">{{ industries[item_id] }}</button></a></li>
+                {% endif %}
+                {% for id in industries.keys() %}
+                {% if id == item_id %}
+                {% else %}
+                <li><a href="/{{ id }}"><button class="bnt">{{ industries[id] }}</button></a></li>
+                {% endif %}
+
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="content" style="width: 100%;">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Show loading indicator
+            document.body.classList.add("loading");
+
+            window.addEventListener("load", function () {
+                // Hide loading indicator
+                document.body.classList.remove("loading");
+                document.getElementById("loading-indicator").style.display = "none";
+                document.getElementById("content").style.display = "block";
+            });
+        });
+    </script>
+</body>
+
+</html>

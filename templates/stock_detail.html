@@ -1,0 +1,197 @@
+{% extends "base.html" %} {% block content %}
+<div style="width: 100%; height: 100%">
+  <div class="divcontainer">
+    <div>
+      <div style="margin-bottom: 10px">
+        <span style="font-weight: bold">산업군:</span> {{industry_name}}
+      </div>
+      <div style="margin-bottom: 10px">
+        <span style="font-weight: bold">산업군 전체 PER:</span> {{index_PER}}
+        <span style="font-weight: bold">산업군 평균 PER:</span>
+        {{index_mean_per}}
+      </div>
+      <div>
+        <span style="font-weight: bold">산업군 전체 PBR:</span> {{index_PBR}}
+        <span style="font-weight: bold">산업군 평균 PBR:</span>
+        {{index_mean_pbr}}
+      </div>
+    </div>
+  </div>
+
+  <div class="chartdivcontainer" style="width: 100%; height: 80%">
+    <div class="chartcontainer" style="width: 100%; height: 80%">
+      <button id="resetZoom" class="mainbutton">Reset Zoom</button>
+      <canvas id="myChart" style="width: 100%; height: 80%"></canvas>
+    </div>
+    <div style="width: 100%; height: 80%">
+      <div class="with-naver-bnt">
+        <h3>회사명 :{{corp_name}}</h3>
+        <a href="/clova/?index_id={{ item_id }}&corp_name={{corp_name}}"
+          ><button class="naver-button">Clova에게 자문하기</button></a
+        >
+      </div>
+      <h4>재무상태</h4>
+      <div class="exec-list" style="width: 100%">
+        <h5 class="exec-item">
+          당기누적 자산총계 : {{current_period_total_assets}}
+        </h5>
+        <h5 class="exec-item">
+          당기누적 부채총계 : {{current_period_total_liabilities}}
+        </h5>
+        <h5 class="exec-item">
+          당기누적 매출액 : {{current_period_total_sales}}
+        </h5>
+        <h5 class="exec-item">
+          당기누적 총포괄이익 : {{current_period_total_comprehensive_income}}
+        </h5>
+      </div>
+      <h4>임원목록</h4>
+      <div class="exec-list" style="width: 100%">
+        {% for exec in execs %}
+        <div class="exec-item">
+          <h5>{{ exec }}</h5>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const data = {{ data | tojson | safe }};
+  const ctx = document.getElementById('myChart').getContext('2d');
+  const index_mean_per = {{ index_mean_per }};
+  const index_mean_pbr = {{ index_mean_pbr }};
+  const index_PER = {{ index_PER }};
+  const index_PBR = {{ index_PBR }};
+
+  const bubbleChart = new Chart(ctx, {
+      type: 'bubble',
+      data: {
+          datasets: [{
+              label: 'Stock Data',
+              data: data,
+              backgroundColor: 'rgb(255, 99, 132)',
+              borderColor: 'rgb(255, 99, 132)',
+              borderWidth: 5,
+          }]
+      },
+      options: {
+          layout: {
+              padding: 0
+          },
+          plugins: {
+              responsive: true,
+              maintainAspectRatio: false,
+              zoom: {
+                  pan: {
+                      enabled: true,
+                      mode: 'xy'
+                  },
+                  zoom: {
+                      wheel: {
+                          enabled: true
+                      },
+                      mode: 'xy',
+                      speed: 0.1
+                  }
+              },
+              tooltip: {
+                  callbacks: {
+                      label: function (context) {
+                          const label = context.raw.id || '';
+                          return label;
+                      }
+                  }
+              },
+              annotation: {
+                  annotations: {
+                      line1: {
+                          type: 'line',
+                          xMin: index_mean_per,
+                          xMax: index_mean_per,
+                          borderColor: 'red',
+                          borderWidth: 2,
+                          borderDash: [10, 5],
+                          label: {
+                              content: `PER Mean: ${index_mean_per.toFixed(2)}`,
+                              enabled: true,
+                              position: 'end'
+                          }
+                      },
+                      line2: {
+                          type: 'line',
+                          yMin: index_mean_pbr,
+                          yMax: index_mean_pbr,
+                          borderColor: 'blue',
+                          borderWidth: 2,
+                          borderDash: [10, 5],
+                          label: {
+                              content: `PBR Mean: ${index_mean_pbr.toFixed(2)}`,
+                              enabled: true,
+                              position: 'end'
+                          }
+                      },
+                      line3: {
+                          type: 'line',
+                          xMin: index_PER,
+                          xMax: index_PER,
+                          borderColor: 'yellow',
+                          borderWidth: 2,
+                          borderDash: [10, 5],
+                          label: {
+                              content: `Index PER: ${index_PER.toFixed(2)}`,
+                              enabled: true,
+                              position: 'end'
+                          }
+                      },
+                      line4: {
+                          type: 'line',
+                          yMin: index_PBR,
+                          yMax: index_PBR,
+                          borderColor: 'green',
+                          borderWidth: 2,
+                          borderDash: [10, 5],
+                          label: {
+                              content: `Index PBR: ${index_PBR.toFixed(2)}`,
+                              enabled: true,
+                              position: 'end'
+                          }
+                      }
+                  }
+              }
+          },
+
+          scales: {
+              x: {
+                  beginAtZero: true,
+                  title: {
+                      display: true,
+                      text: 'PER'
+                  }
+              },
+              y: {
+                  beginAtZero: true,
+                  title: {
+                      display: true,
+                      text: 'PBR'
+                  }
+              }
+          }
+      }
+  });
+
+  document.getElementById('myChart').onclick = function (evt) {
+      const points = bubbleChart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, true);
+      if (points.length) {
+          const firstPoint = points[0];
+          const label = bubbleChart.data.datasets[firstPoint.datasetIndex].data[firstPoint.index].id;
+          window.location.href = `/detail/?index_id={{ item_id }}&stock=${label}`;
+      }
+  };
+  document.getElementById('resetZoom').addEventListener('click', function () {
+      bubbleChart.resetZoom();
+  });
+</script>
+
+{% endblock %}
